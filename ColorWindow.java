@@ -22,17 +22,20 @@ public class ColorWindow extends JDialog {
 	private final JPanel panel = new JPanel();
 	private JLabel RGBVal;
 	private JLabel HEXConVal;
+	private JLabel CMYKVal;
 	private JPanel ClrDisp;
 	private Color color = (Color.BLACK);
 	private int RValue, GValue, BValue;
 	private JSlider Red, Green, Blue;
 	private JLabel RNum, GNum, BNum;
+	private int R1,G1,B1;
+	private float C,M,Y,K;
 
 	public ColorWindow() {
 		setTitle("Color Conversion");
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 340, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -45,7 +48,7 @@ public class ColorWindow extends JDialog {
 		ClrDisp = new JPanel();
 		ClrDisp.setBorder(new LineBorder(new Color(105, 105, 105), 1, true));
 		ClrDisp.setToolTipText("Picked Color Preview");
-		ClrDisp.setBounds(94, 204, 145, 38);
+		ClrDisp.setBounds(49, 199, 145, 38);
 		ClrDisp.setBackground(Color.BLACK);
 		panel.add(ClrDisp);
 
@@ -53,73 +56,79 @@ public class ColorWindow extends JDialog {
 		Red.setValue(0);
 		Red.setMajorTickSpacing(50);
 		Red.setMaximum(255);
-		Red.setBounds(39, 34, 200, 26);
+		Red.setBounds(39, 11, 200, 26);
 		panel.add(Red);
 
 		Green = new JSlider();
 		Green.setValue(0);
 		Green.setMajorTickSpacing(50);
 		Green.setMaximum(255);
-		Green.setBounds(39, 70, 200, 26);
+		Green.setBounds(39, 47, 200, 26);
 		panel.add(Green);
 
 		Blue = new JSlider();
 		Blue.setValue(0);
 		Blue.setMajorTickSpacing(50);
 		Blue.setMaximum(255);
-		Blue.setBounds(39, 106, 200, 26);
+		Blue.setBounds(39, 83, 200, 26);
 		panel.add(Blue);
 
 		JLabel lblR = new JLabel("R");
 		lblR.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblR.setHorizontalAlignment(SwingConstants.CENTER);
-		lblR.setBounds(10, 34, 19, 26);
+		lblR.setBounds(10, 11, 19, 26);
 		panel.add(lblR);
 
 		JLabel lblG = new JLabel("G");
 		lblG.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblG.setHorizontalAlignment(SwingConstants.CENTER);
-		lblG.setBounds(10, 70, 19, 26);
+		lblG.setBounds(10, 47, 19, 26);
 		panel.add(lblG);
 
 		JLabel lblB = new JLabel("B");
 		lblB.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblB.setHorizontalAlignment(SwingConstants.CENTER);
-		lblB.setBounds(10, 106, 19, 26);
+		lblB.setBounds(10, 83, 19, 26);
 		panel.add(lblB);
 
 		RGBVal = new JLabel();
 		RGBVal.setText("RGB Color: 0,0,0");
 		RGBVal.setToolTipText("RGB Values");
-		RGBVal.setBounds(94, 143, 145, 20);
+		RGBVal.setBounds(49, 120, 145, 20);
 		panel.add(RGBVal);
 
 		HEXConVal = new JLabel();
 		HEXConVal.setText("HEX Color: #000000");
 		HEXConVal.setToolTipText("HEX Converted Values");
-		HEXConVal.setBounds(94, 174, 145, 20);
+		HEXConVal.setBounds(49, 170, 145, 20);
 		panel.add(HEXConVal);
 
 		RNum = new JLabel();
 		RNum.setHorizontalAlignment(SwingConstants.CENTER);
 		RNum.setText("0");
 		RNum.setToolTipText("Red Color Value");
-		RNum.setBounds(249, 34, 29, 20);
+		RNum.setBounds(249, 11, 29, 20);
 		panel.add(RNum);
 
 		GNum = new JLabel();
 		GNum.setHorizontalAlignment(SwingConstants.CENTER);
 		GNum.setText("0");
 		GNum.setToolTipText("Green Color Value");
-		GNum.setBounds(249, 70, 29, 20);
+		GNum.setBounds(249, 47, 29, 20);
 		panel.add(GNum);
 
 		BNum = new JLabel();
 		BNum.setHorizontalAlignment(SwingConstants.CENTER);
 		BNum.setText("0");
 		BNum.setToolTipText("Blue Color Value");
-		BNum.setBounds(249, 106, 29, 20);
+		BNum.setBounds(249, 83, 29, 20);
 		panel.add(BNum);
+		
+		CMYKVal = new JLabel();
+		CMYKVal.setToolTipText("CMYK Values");
+		CMYKVal.setText("CMYK Color: 0%,0%,0%,0%");
+		CMYKVal.setBounds(49, 145, 229, 20);
+		panel.add(CMYKVal);
 
 		event e = new event();
 		Red.addChangeListener(e);
@@ -147,7 +156,23 @@ public class ColorWindow extends JDialog {
 			color = new Color(RValue, GValue, BValue);
 			ClrDisp.setBackground(color);
 			RGBVal.setText("RGB Color: " + RValue + "," + GValue + "," + BValue);
+			
+			
+			/// XDDDDDDDDDDDDDDDDDD
+			
+			  R1 = RValue/255;
+			  G1 = GValue/255;
+			  B1 = BValue/255; K =
+			  1-Math.max(Math.max(R1, G1),B1);
+			  C = (1-R1-K)/(1-K);
+			  M = (1-G1-K)/(1-K);
+			  Y = (1-B1-K)/(1-K);
+			  
+			  
+			  CMYKVal.setText("CMYK Color: " + C + "%," + M + "%," + Y + "%," + K + "%");
+			 
 
+			
 			int hexRed = RValue;
 			int hexGreen = GValue;
 			int hexBlue = BValue;
@@ -167,5 +192,4 @@ public class ColorWindow extends JDialog {
 		// TODO Auto-generated method stub
 
 	}
-
 }

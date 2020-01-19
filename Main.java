@@ -51,7 +51,7 @@ public class Main extends JFrame {
 				}
 			}
 		);
-		btnClick.setBounds(150, 130, 89, 23);
+		btnClick.setBounds(150, 130, 120, 23);
 		contentPane.add(btnClick);
 		
 		
